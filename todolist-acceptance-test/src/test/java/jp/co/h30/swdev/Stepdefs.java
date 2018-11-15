@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Stepdefs {
-	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
+	private static final String REGISTER_URL = "http://localhost:8080/todolist/register.jsp";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");

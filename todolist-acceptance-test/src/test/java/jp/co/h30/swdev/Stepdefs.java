@@ -1,10 +1,19 @@
 package jp.co.h30.swdev;
 
 import cucumber.api.PendingException;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,77 +21,117 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Stepdefs {
+	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
+	private static final String LIST_URL = "http://localhost:8080/todolist/";
+
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private WebDriver driver;
-	
+
+	@Before
+	public void setupBrowser() {
+		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
+		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "NUL");
+		driver = new FirefoxDriver();
+	}
+
+	protected WebElement findElement(String testId) {
+		return driver.findElement(By.cssSelector("[data-test-id=" + testId + "]"));
+	}
+
+	protected WebElement findElement(String testId, WebElement parent) {
+		return parent.findElement(By.cssSelector("[data-test-id=" + testId + "]"));
+	}
+
+	protected List<WebElement> findElements(String testId) {
+		return driver.findElements(By.cssSelector("[data-test-id=" + testId + "]"));
+	}
+
+	protected List<WebElement> findElements(String testId, WebElement parent) {
+		return parent.findElements(By.cssSelector("[data-test-id=" + testId + "]"));
+	}
+
+	@Given("^一覧ページを表示する$")
+	public void 一覧ページを表示する() throws Exception {
+		driver.get(LIST_URL);
+	}
+
 	@Given("^登録ページを表示する$")
 	public void 登録ページを表示する() throws Exception {
-	    driver = new FirefoxDriver();
-	    driver.get("http://localhost:8080/todolist/");
+		driver.get(REGISTER_URL);
 	}
 
 	@Given("^Todoアイテムは登録されていない$")
 	public void todoアイテムは登録されていない() throws Exception {
-	    WebElement content = driver.findElement(By.tagName("h2"));
-	    assertTrue(content.getText().contains("Hello World!"));
+		List<WebElement> elements = driver.findElements(By.cssSelector("[data-test-id=todo]"));
+		assertThat(elements.size(), is(0));
 	}
 
-	@When("^　タイトルに\"([^\"]*)\"と入力する$")
+	@When("^タイトルに\"([^\"]*)\"と入力する$")
 	public void タイトルに_と入力する(String arg1) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement title = findElement("title");
+		title.sendKeys(arg1);
 	}
 
 	@When("^説明に\"([^\"]*)\"と入力する$")
 	public void 説明に_と入力する(String arg1) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement detail = findElement("detail");
+		detail.sendKeys(arg1);
 	}
 
 	@When("^期限に\"([^\"]*)\"と入力する$")
 	public void 期限に_と入力する(String arg1) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement deadline = findElement("deadline");
+		deadline.sendKeys(arg1);
 	}
 
 	@When("^登録ボタンをクリックする$")
 	public void 登録ボタンをクリックする() throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement btnSubmit = findElement("btn-submit");
+		btnSubmit.click();
 	}
 
-	@Then("^一覧ページを表示する$")
-	public void 一覧ページを表示する() throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+	@Then("^一覧ページが表示される$")
+	public void 一覧ページが表示される() throws Exception {
+		assertThat(driver.getCurrentUrl(), is(LIST_URL));
 	}
 
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		List<WebElement> todos = findElements("todo");
+		assertThat(todos.size(), is(arg1));
 	}
 
 	@Then("^(\\d+)件目のタイトルが\"([^\"]*)\"である$")
 	public void 件目のタイトルが_である(int arg1, String arg2) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = findElement("title", todo).getText();
+		assertThat(actual, is(arg2));
 	}
 
 	@Then("^(\\d+)件目の説明が\"([^\"]*)\"である$")
 	public void 件目の説明が_である(int arg1, String arg2) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = findElement("detail", todo).getText();
+		assertThat(actual, is(arg2));
 	}
 
 	@Then("^(\\d+)件目の期限が\"([^\"]*)\"である$")
 	public void 件目の期限が_である(int arg1, String arg2) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = findElement("deadline", todo).getText();
+		assertThat(actual, is(arg2));
 	}
 
 	@Then("^(\\d+)件目の作成日が今日である$")
 	public void 件目の作成日が今日である(int arg1) throws Exception {
-	    // Write code here that turns the phrase above into concrete actions
-//	    throw new PendingException();
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = findElement("created-date", todo).getText();
+		String today = LocalDate.now().format(dateFormatter);
+		assertThat(actual, is(today));
+	}
+
+	@After
+	public void closeBrowser() {
+		driver.quit();
 	}
 }

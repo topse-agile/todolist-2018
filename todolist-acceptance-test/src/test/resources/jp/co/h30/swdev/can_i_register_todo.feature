@@ -19,14 +19,15 @@
 Feature: Can I register todo?
   I feel uneasy without having to do
 
-  Scenario: Register with fullfilled todo
-    Given 登録ページを表示する
+  Scenario: 全項目に正常入力
+    Given 一覧ページを表示する
     And Todoアイテムは登録されていない
-    When 　タイトルに"Hoge"と入力する
+    And 登録ページを表示する
+    When タイトルに"Hoge"と入力する
     And 説明に"Fuga"と入力する
     And 期限に"2018/10/25"と入力する
     And 登録ボタンをクリックする
-    Then 一覧ページを表示する
+    Then 一覧ページが表示される
     And Todoアイテムが1件表示される
     And 1件目のタイトルが"Hoge"である
     And 1件目の説明が"Fuga"である

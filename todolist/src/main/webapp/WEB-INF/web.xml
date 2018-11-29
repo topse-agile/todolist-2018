@@ -12,7 +12,7 @@
 		<servlet-name>Register</servlet-name>
 		<display-name>Register</display-name>
 		<description></description>
-		<servlet-class>jp.co.h30.swdev.Register</servlet-class>
+		<servlet-class>jp.co.h30.swdev.servlet.RegisterServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

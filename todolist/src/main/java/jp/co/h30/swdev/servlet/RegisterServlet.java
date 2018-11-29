@@ -1,4 +1,4 @@
-package jp.co.h30.swdev;
+package jp.co.h30.swdev.servlet;
 
 import java.io.IOException;
 
@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Register
  */
-public class Register extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Register() {
+	public RegisterServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

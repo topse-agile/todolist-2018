@@ -1,17 +1,8 @@
 package jp.co.h30.swdev;
 
-import cucumber.api.PendingException;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
-import cucumber.api.java.en.Then;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -19,6 +10,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class Stepdefs {
 	private static final String REGISTER_URL = "http://localhost:8080/todolist/register.jsp";
@@ -63,7 +60,7 @@ public class Stepdefs {
 	@Given("^Todoアイテムは登録されていない$")
 	public void todoアイテムは登録されていない() throws Exception {
 		List<WebElement> elements = driver.findElements(By.cssSelector("[data-test-id=todo]"));
-		assertThat(elements.size(), is(0));
+		assertEquals(0, elements.size());
 	}
 
 	@When("^タイトルに\"([^\"]*)\"と入力する$")
@@ -92,34 +89,34 @@ public class Stepdefs {
 
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
-		assertThat(driver.getCurrentUrl(), is(LIST_URL));
+		assertEquals(LIST_URL, driver.getCurrentUrl());
 	}
 
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
 		List<WebElement> todos = findElements("todo");
-		assertThat(todos.size(), is(arg1));
+		assertEquals(arg1, todos.size());
 	}
 
 	@Then("^(\\d+)件目のタイトルが\"([^\"]*)\"である$")
 	public void 件目のタイトルが_である(int arg1, String arg2) throws Exception {
 		WebElement todo = findElements("todo").get(arg1 - 1);
 		String actual = findElement("title", todo).getText();
-		assertThat(actual, is(arg2));
+		assertEquals(arg2, actual);
 	}
 
 	@Then("^(\\d+)件目の説明が\"([^\"]*)\"である$")
 	public void 件目の説明が_である(int arg1, String arg2) throws Exception {
 		WebElement todo = findElements("todo").get(arg1 - 1);
 		String actual = findElement("detail", todo).getText();
-		assertThat(actual, is(arg2));
+		assertEquals(arg2, actual);
 	}
 
 	@Then("^(\\d+)件目の期限が\"([^\"]*)\"である$")
 	public void 件目の期限が_である(int arg1, String arg2) throws Exception {
 		WebElement todo = findElements("todo").get(arg1 - 1);
 		String actual = findElement("deadline", todo).getText();
-		assertThat(actual, is(arg2));
+		assertEquals(arg2, actual);
 	}
 
 	@Then("^(\\d+)件目の作成日が今日である$")
@@ -127,7 +124,7 @@ public class Stepdefs {
 		WebElement todo = findElements("todo").get(arg1 - 1);
 		String actual = findElement("created-date", todo).getText();
 		String today = LocalDate.now().format(dateFormatter);
-		assertThat(actual, is(today));
+		assertEquals(today, actual);
 	}
 
 	@After

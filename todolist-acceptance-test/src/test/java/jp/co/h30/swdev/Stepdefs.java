@@ -94,7 +94,7 @@ public class Stepdefs {
 
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
-		List<WebElement> todos = findElements("todo");
+		List<WebElement> todos = driver.findElements(By.cssSelector("[data-test-id=todo]"));
 		assertEquals(arg1, todos.size());
 	}
 

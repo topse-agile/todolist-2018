@@ -19,8 +19,8 @@ public class RegisterService {
 	}
 	
 	/**
-	 * @param bean “o˜^‚·‚éTodoƒAƒCƒeƒ€‚Ìî•ñ
-	 * @return TodoƒAƒCƒeƒ€‚Ì“o˜^‚É¬Œ÷‚µ‚½‚ç{@code true}, ¸”s‚µ‚½‚ç{@code false}‚ğ•Ô‹p‚µ‚Ü‚·.
+	 * @param bean ç™»éŒ²ã™ã‚‹Todoã‚¢ã‚¤ãƒ†ãƒ ã®æƒ…å ±
+	 * @return Todoã‚¢ã‚¤ãƒ†ãƒ ã®ç™»éŒ²ã«æˆåŠŸã—ãŸã‚‰{@code true}, å¤±æ•—ã—ãŸã‚‰{@code false}ã‚’è¿”å´ã—ã¾ã™.
 	 */
 	public boolean execute(RegisterBean bean) {
 		TodoDao dao = new TodoDao();
@@ -32,7 +32,7 @@ public class RegisterService {
 			java.util.Date deadline = format.parse(bean.getDeadline());
 			dao.setDeadline(new Date(deadline.getTime()));
 		} catch (ParseException e) {
-			bean.setMessage("•s³‚È“ú•tƒtƒH[ƒ}ƒbƒg‚Å‚·");
+			bean.setMessage("ä¸æ­£ãªæ—¥ä»˜ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã§ã™");
 			return false;
 		}
 		dao.setCreatedDate(new Date(System.currentTimeMillis()));

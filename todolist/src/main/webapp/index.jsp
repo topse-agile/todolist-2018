@@ -3,6 +3,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="jp.co.h30.swdev.bean.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <body>
@@ -13,8 +14,8 @@
 			<div data-test-id="todo">
 				<span data-test-id="title"><c:out value="${todo.title}"></c:out></span>
 				<span data-test-id="detail"><c:out value="${todo.detail}"></c:out></span>
-				<span data-test-id="deadline"><c:out value="${todo.deadline}"></c:out></span>
-				<span data-test-id="created-date"><c:out value="${todo.createdDate}"></c:out></span>
+				<span data-test-id="deadline"><fmt:formatDate value="${todo.deadline}" pattern="yyyy/MM/dd" /></span>
+				<span data-test-id="created-date"><fmt:formatDate value="${todo.createdDate}" pattern="yyyy/MM/dd" /></span>
 			</div>
 		</c:forEach>
 	</div>

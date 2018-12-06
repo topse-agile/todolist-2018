@@ -4,15 +4,15 @@
 <body>
 	<h2>TodoList</h2>
 	<h3>登録</h3>
-	<form action="/todolist" method="post">
+	<form action="register" method="post">
 		<label for="title">タイトル</label>
-		<input id="title" data-test-id="title" type="text" />
+		<input id="title" data-test-id="title" name="title" type="text" />
 		
 		<label for="detail">説明</label>
-		<input id="detail" data-test-id="detail" type="text" />
+		<input id="detail" data-test-id="detail" name="detail" type="text" />
 		
 		<label for="deadline">期限</label>
-		<input id="deadline" data-test-id="deadline" type="text" />
+		<input id="deadline" data-test-id="deadline" name="deadline" type="text" />
 		
 		<input data-test-id="btn-submit" type="submit" value="登録" />
 		<input data-test-id="btn-cancel" type="submit" value="キャンセル" />

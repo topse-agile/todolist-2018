@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.h30.swdev.bean.RegisterBean;
+import jp.co.h30.swdev.service.RegisterService;
+
 /**
  * Servlet implementation class Register
  */
@@ -32,8 +35,14 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("todolist");
-		dispatcher.forward(request, response);
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle(request.getParameter("title"));
+		bean.setDeadline(request.getParameter("deadline"));
+		bean.setDetail(request.getParameter("detail"));
+		
+		new RegisterService().execute(bean);
+		
+		response.sendRedirect("/todolist/");
 	}
 
 }

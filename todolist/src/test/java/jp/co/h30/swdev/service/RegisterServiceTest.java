@@ -3,14 +3,10 @@ package jp.co.h30.swdev.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -31,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
+import jp.co.h30.swdev.repository.RepositoryFactory;
 import jp.co.h30.swdev.repository.TodoRepository;
 
 public class RegisterServiceTest {
@@ -50,11 +47,7 @@ public class RegisterServiceTest {
 		Statement stmt = connection.createStatement();
 		stmt.execute(
 				"create table todo (title varchar, detail varchar, deadline date, created_date date)");
-		stmt.close();
-		
-//		InputStream in = Resources.getResourceAsStream("mybatis-config.xml");
-//		SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(in);
-//		repository = factory.openSession().getMapper(TodoRepository.class);
+		stmt.close();		
 	}
 	
 	@AfterAll
@@ -68,7 +61,7 @@ public class RegisterServiceTest {
 		
 		Statement stmt = connection.createStatement();
 		stmt.execute("delete from todo");
-		repository = service.repository;
+		repository = RepositoryFactory.getInstance().generateRepository();
 	}
 
 	@AfterEach
@@ -93,6 +86,6 @@ public class RegisterServiceTest {
 		assertEquals("Foo", result.getTitle());
 		assertEquals("Bar", result.getDetail());
 		assertEquals(date.format(FORMATTER), FORMAT.format(result.getDeadline()));
-		assertNotNull(result.getCratedDate());
+		assertNotNull(result.getCreatedDate());
 	}
 }

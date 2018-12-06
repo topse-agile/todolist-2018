@@ -1,11 +1,13 @@
 package jp.co.h30.swdev.bean;
 
+import java.util.Date;
+
 public class ListBean {
 	private String detail;
-	private String deadline;
+	private Date deadline;
 	private String title;
 	private String message;
-	private String createdDate;
+	private Date createdDate;
 	
 	public String getTitle() {
 		return title;
@@ -19,10 +21,10 @@ public class ListBean {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public String getDeadline() {
+	public Date getDeadline() {
 		return deadline;
 	}
-	public void setDeadline(String deadline) {
+	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
 	public String getMessage() {
@@ -31,10 +33,10 @@ public class ListBean {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(String cratedDate) {
+	public void setCreatedDate(Date cratedDate) {
 		this.createdDate = cratedDate;
 	}
 }

@@ -32,11 +32,11 @@ public class TodoDao {
 		this.deadline = deadline;
 	}
 
-	public Date getCratedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCratedDate(Date createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 }

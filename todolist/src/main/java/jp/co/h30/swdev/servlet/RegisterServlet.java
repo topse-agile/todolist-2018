@@ -19,16 +19,20 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	public RegisterServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+		dispatcher.forward(request, response);
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("todolist1");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("todolist");
 		dispatcher.forward(request, response);
 	}
 

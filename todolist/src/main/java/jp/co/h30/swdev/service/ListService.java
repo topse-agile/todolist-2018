@@ -10,8 +10,17 @@ import jp.co.h30.swdev.repository.RepositoryFactory;
 import jp.co.h30.swdev.repository.TodoRepository;
 
 public class ListService {
+	private TodoRepository repository;
+	
+	public ListService() {
+		this.repository = RepositoryFactory.getInstance().generateRepository();
+	}
+	
+	ListService(TodoRepository repository) {
+		this.repository = repository;
+	}
+	
 	public List<ListBean> execute() {
-		TodoRepository repository = RepositoryFactory.getInstance().generateRepository();
 		List<TodoDao> todos = repository.findAll();
 		
 		List<ListBean> results = new ArrayList<ListBean>();

@@ -12,10 +12,16 @@ import jp.co.h30.swdev.repository.TodoRepository;
 
 public class RegisterService {
 	private static final String DATE_FORMAT = "yyyyMMdd";
-	TodoRepository repository;
+	private static final String DATE_FORMAT_WIHT_SLASH = "yyyy/MM/dd";
+	
+	private TodoRepository repository;
 	
 	public RegisterService() {
-		repository = RepositoryFactory.getInstance().generateRepository();
+		this.repository = RepositoryFactory.getInstance().generateRepository();
+	}
+	
+	RegisterService(TodoRepository repository) {
+		this.repository = repository;
 	}
 	
 	/**
@@ -27,9 +33,8 @@ public class RegisterService {
 		dao.setTitle(bean.getTitle());
 		dao.setDetail(bean.getDetail());
 		
-		DateFormat format = new SimpleDateFormat(DATE_FORMAT);
 		try {
-			java.util.Date deadline = format.parse(bean.getDeadline());
+			java.util.Date deadline = parseDate(bean.getDeadline());
 			dao.setDeadline(new Date(deadline.getTime()));
 		} catch (ParseException e) {
 			bean.setMessage("不正な日付フォーマットです");
@@ -40,5 +45,16 @@ public class RegisterService {
 		repository.insert(dao);
 		
 		return true;
+	}
+	
+	private java.util.Date parseDate(String dateStr) throws ParseException{
+		String pattern;
+		if(dateStr.contains("/")) {
+			pattern = DATE_FORMAT_WIHT_SLASH;
+		} else {
+			pattern = DATE_FORMAT;
+		}
+		DateFormat format = new SimpleDateFormat(pattern);
+		return format.parse(dateStr);
 	}
 }

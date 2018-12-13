@@ -3,65 +3,40 @@ package jp.co.h30.swdev.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.h2.Driver;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
-import jp.co.h30.swdev.repository.RepositoryFactory;
 import jp.co.h30.swdev.repository.TodoRepository;
 
 public class RegisterServiceTest {
 	private static final String DATE_FORMAT = "yyyyMMdd";
+	private static final String DATE_FORMAT_WITH_SLASH = "yyyy/MM/dd";
+	
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 	private static final DateFormat FORMAT = new SimpleDateFormat(DATE_FORMAT);
-	
-	private static Connection connection;
-	private static TodoRepository repository;
 
+	@Mock
+	private TodoRepository repository;
+
+	@InjectMocks
 	private RegisterService service;
-
-	@BeforeAll
-	public static void setUpAll() throws SQLException, IOException {
-		Driver.load();
-		connection = DriverManager.getConnection("jdbc:h2:mem:todo");
-		Statement stmt = connection.createStatement();
-		stmt.execute(
-				"create table todo (title varchar, detail varchar, deadline date, created_date date)");
-		stmt.close();		
-	}
-	
-	@AfterAll
-	public static void tearDownAll() throws SQLException {
-		connection.close();
-	}
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		service = new RegisterService();
-		
-		Statement stmt = connection.createStatement();
-		stmt.execute("delete from todo");
-		repository = RepositoryFactory.getInstance().generateRepository();
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@AfterEach
@@ -69,23 +44,45 @@ public class RegisterServiceTest {
 	}
 
 	@Test
-	public void successRegisterWithAllColumns() {
+	public void canRegisterWithAllColumns() {
 		RegisterBean bean = new RegisterBean();
 		bean.setTitle("Foo");
 		bean.setDetail("Bar");
 		LocalDate date = LocalDate.now();
 		bean.setDeadline(date.format(FORMATTER));
 
+		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
+
 		boolean valid = service.execute(bean);
+
 		assertTrue(valid);
+		verify(repository).insert(argument.capture());
+
+		TodoDao actualArgument = argument.getValue();
+		assertEquals(bean.getTitle(), actualArgument.getTitle());
+		assertEquals(bean.getDetail(), actualArgument.getDetail());
+		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
+		assertNotNull(actualArgument.getCreatedDate());
+	}
+
+	@Test
+	public void canRegisterWithSlashSeparatedDeadline() {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Foo");
+		bean.setDetail("Bar");
+		LocalDate date = LocalDate.now();
+		bean.setDeadline(date.format(DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_SLASH)));
+
+		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
+		boolean valid = service.execute(bean);
+
+		assertTrue(valid);
+		verify(repository).insert(argument.capture());
 		
-		List<TodoDao> results = repository.findAll();
-		assertEquals(1, results.size());
-		
-		TodoDao result = results.get(0);
-		assertEquals("Foo", result.getTitle());
-		assertEquals("Bar", result.getDetail());
-		assertEquals(date.format(FORMATTER), FORMAT.format(result.getDeadline()));
-		assertNotNull(result.getCreatedDate());
+		TodoDao actualArgument = argument.getValue();
+		assertEquals(bean.getTitle(), actualArgument.getTitle());
+		assertEquals(bean.getDetail(), actualArgument.getDetail());
+		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
+		assertNotNull(actualArgument.getCreatedDate());
 	}
 }

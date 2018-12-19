@@ -20,7 +20,7 @@ public class RepositoryFactory {
 			factory = new SqlSessionFactoryBuilder().build(in);
 			repository = factory.openSession().getMapper(TodoRepository.class);
 		} catch (IOException e) {
-			throw new RuntimeException("DBƒAƒNƒZƒX‚É¸”s‚Ü‚µ‚½.", e);
+			throw new RuntimeException("DBæ¥ç¶šã«å¤±æ•—ã—ã¾ã—ãŸ.", e);
 			
 		}
 	}
@@ -30,10 +30,10 @@ public class RepositoryFactory {
 	}
 	
 	/**
-	 * {@link TodoRepository}‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‹p‚µ‚Ü‚·.<br>
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚ÍSingleton‚Å‚·.
+	 * {@link TodoRepository}ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™.<br>
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯Singletonã§ã™.
 	 * 
-	 * @return repository‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	 * @return repositoryã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	public TodoRepository generateRepository() {
 		return repository;

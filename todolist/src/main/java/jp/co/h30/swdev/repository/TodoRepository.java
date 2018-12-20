@@ -7,4 +7,6 @@ public interface TodoRepository {
 	public int insert(TodoDao dao);
 	
 	public List<TodoDao> findAll();
+	
+	public int deleteAll();
 }

@@ -29,4 +29,8 @@
 	<select id="findAll" resultMap="todoResultMap">
 		select * from todo
 	</select>
+	
+	<delete id="deleteAll">
+		delete from todo
+	</delete>
 </mapper>

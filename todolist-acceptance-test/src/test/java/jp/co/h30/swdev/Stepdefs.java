@@ -18,8 +18,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class Stepdefs {
-	private static final String REGISTER_URL = "http://localhost:8080/todolist/register.jsp";
+	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
+	private static final String DELETE_URL = "http://localhost:8080/todolist/delete";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private WebDriver driver;
@@ -59,6 +60,7 @@ public class Stepdefs {
 
 	@Given("^Todoアイテムは登録されていない$")
 	public void todoアイテムは登録されていない() throws Exception {
+		driver.get(DELETE_URL);
 		List<WebElement> elements = driver.findElements(By.cssSelector("[data-test-id=todo]"));
 		assertEquals(0, elements.size());
 	}

@@ -23,3 +23,13 @@ Feature: Can I register todo?
     Given Todoアイテムは登録されていない
     When 一覧ページを表示する
     Then Todoアイテムが0件表示される
+
+  Scenario: 未完了のTODOアイテムが1件
+    Given Todoアイテムは登録されていない
+    And 登録ページを表示する
+    When タイトルに"Hoge"と入力する
+    And 説明に"Fuga"と入力する
+    And 期限に"2018/10/5"と入力する
+    And 登録ボタンをクリックする
+    Then 一覧ページが表示される
+    And Todoアイテムが1件表示される

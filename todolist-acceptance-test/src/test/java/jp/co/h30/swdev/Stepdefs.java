@@ -106,6 +106,12 @@ public class Stepdefs {
 		btnSubmit.click();
 	}
 
+    @When("^登録リンクをクリックする$")
+    public void 登録リンクをクリックする() throws Exception {
+        WebElement btnSubmit = findElement("btn-register");
+        btnSubmit.click();
+    }
+
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());

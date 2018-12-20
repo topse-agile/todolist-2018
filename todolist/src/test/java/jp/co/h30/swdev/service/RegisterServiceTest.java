@@ -2,6 +2,7 @@ package jp.co.h30.swdev.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
@@ -83,6 +84,44 @@ public class RegisterServiceTest {
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
+		assertNotNull(actualArgument.getCreatedDate());
+	}
+	
+	@Test
+	public void canRegisterWithNullDetailAndDeadline() {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		
+		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
+		boolean valid = service.execute(bean);
+		
+		assertTrue(valid);
+		verify(repository).insert(argument.capture());
+		
+		TodoDao actualArgument = argument.getValue();
+		assertEquals(bean.getTitle(), actualArgument.getTitle());
+		assertNull(actualArgument.getDetail());
+		assertNull(actualArgument.getDeadline());
+		assertNotNull(actualArgument.getCreatedDate());
+	}
+	
+	@Test
+	public void canRegisterWithEmptyDetailAndDeadline() {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		bean.setDetail("");
+		bean.setDeadline("");
+		
+		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
+		boolean valid = service.execute(bean);
+		
+		assertTrue(valid);
+		verify(repository).insert(argument.capture());
+		
+		TodoDao actualArgument = argument.getValue();
+		assertEquals(bean.getTitle(), actualArgument.getTitle());
+		assertEquals(bean.getDetail(), actualArgument.getDetail());
+		assertNull(actualArgument.getDeadline());
 		assertNotNull(actualArgument.getCreatedDate());
 	}
 }

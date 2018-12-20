@@ -60,6 +60,7 @@ public class RegisterServiceTest {
 		verify(repository).insert(argument.capture());
 
 		TodoDao actualArgument = argument.getValue();
+		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
@@ -81,6 +82,7 @@ public class RegisterServiceTest {
 		verify(repository).insert(argument.capture());
 		
 		TodoDao actualArgument = argument.getValue();
+		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
@@ -99,6 +101,7 @@ public class RegisterServiceTest {
 		verify(repository).insert(argument.capture());
 		
 		TodoDao actualArgument = argument.getValue();
+		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertNull(actualArgument.getDetail());
 		assertNull(actualArgument.getDeadline());
@@ -119,6 +122,7 @@ public class RegisterServiceTest {
 		verify(repository).insert(argument.capture());
 		
 		TodoDao actualArgument = argument.getValue();
+		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertNull(actualArgument.getDeadline());

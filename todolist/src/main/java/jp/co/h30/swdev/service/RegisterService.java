@@ -33,13 +33,17 @@ public class RegisterService {
 		dao.setTitle(bean.getTitle());
 		dao.setDetail(bean.getDetail());
 		
-		try {
-			java.util.Date deadline = parseDate(bean.getDeadline());
-			dao.setDeadline(new Date(deadline.getTime()));
-		} catch (ParseException e) {
-			bean.setMessage("不正な日付フォーマットです");
-			return false;
+		String deadlineStr = bean.getDeadline();
+		if(deadlineStr != null && !deadlineStr.isEmpty()) {
+			try {
+				java.util.Date deadline = parseDate(deadlineStr);
+				dao.setDeadline(new Date(deadline.getTime()));
+			} catch (ParseException e) {
+				bean.setMessage("不正な日付フォーマットです");
+				return false;
+			}
 		}
+		
 		dao.setCreatedDate(new Date(System.currentTimeMillis()));
 		
 		repository.insert(dao);

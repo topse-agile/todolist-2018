@@ -14,6 +14,11 @@
 		<servlet-name>List</servlet-name>
 		<servlet-class>jp.co.h30.swdev.servlet.ListServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>Delete</servlet-name>
+		<servlet-class>jp.co.h30.swdev.servlet.DeleteServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>List</servlet-name>
@@ -23,5 +28,10 @@
 	<servlet-mapping>
 		<servlet-name>Register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Delete</servlet-name>
+		<url-pattern>/delete</url-pattern>
 	</servlet-mapping>
 </web-app>

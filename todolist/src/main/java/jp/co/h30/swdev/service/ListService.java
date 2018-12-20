@@ -28,8 +28,13 @@ public class ListService {
 		for(TodoDao dao : todos) {
 			ListBean bean = new ListBean();
 			try {
-				bean.setTitle(new String(dao.getTitle().getBytes("ISO_8859_1"), "UTF-8"));
-				bean.setDetail(new String(dao.getDetail().getBytes("ISO_8859_1"), "UTF-8"));
+				if(dao.getTitle() != null) {
+					bean.setTitle(new String(dao.getTitle().getBytes("ISO_8859_1"), "UTF-8"));
+				}
+				
+				if(dao.getDetail() != null) {
+					bean.setDetail(new String(dao.getDetail().getBytes("ISO_8859_1"), "UTF-8"));
+				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

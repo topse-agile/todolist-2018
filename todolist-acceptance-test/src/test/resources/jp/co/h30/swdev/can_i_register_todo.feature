@@ -38,4 +38,6 @@ Feature: Can I register todo?
 		| feature | title | detail | deadline | num | exdeadline |
 		| 全項目を正常に入力する | Hoge	| Fuga	| 2018/10/25 | 1 | 2018/10/25 |
 		| 任意項目を入力しない | Hoge	||| 1 ||
+		| ゼロパディングしない日付を入力する | Hoge || 2018/1/1 | 1 | 2018/01/01 |
+		
 		

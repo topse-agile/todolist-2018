@@ -19,7 +19,7 @@
 Feature: Can I register todo?
   I feel uneasy without having to do
 
-	Scenario Outline: <feature>による登録成功
+	Scenario Outline: <feature>条件での登録成功
 		Given 一覧ページを表示する
 		And Todoアイテムは登録されていない
 		And 登録ページを表示する
@@ -36,5 +36,6 @@ Feature: Can I register todo?
 	
 	Examples:
 		| feature | title | detail | deadline | num | exdeadline |
-		| 全項目に正常入力 | Hoge	| Fuga	| 2018/10/25 | 1 | 2018/10/25 |
+		| 全項目を正常に入力する | Hoge	| Fuga	| 2018/10/25 | 1 | 2018/10/25 |
+		| 任意項目を入力しない | Hoge	||| 1 ||
 		

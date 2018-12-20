@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
@@ -30,6 +31,7 @@ public class RegisterService {
 	 */
 	public boolean execute(RegisterBean bean) {
 		TodoDao dao = new TodoDao();
+		dao.setId(UUID.randomUUID().toString());
 		dao.setTitle(bean.getTitle());
 		dao.setDetail(bean.getDetail());
 		

@@ -42,6 +42,7 @@
 					<td data-test-id="detail"><c:out value="${todo.detail}"></c:out></td>
 					<td data-test-id="deadline"><fmt:formatDate value="${todo.deadline}" pattern="yyyy/MM/dd" /></td>
 					<td data-test-id="created-date"><fmt:formatDate value="${todo.createdDate}" pattern="yyyy/MM/dd" /></td>
+					<td><input type="hidden" name="id" value="${todo.id}"></input></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -88,7 +88,7 @@ public class RegisterServiceTest {
 	}
 	
 	@Test
-	public void canRegisterWithoutDetailAndDeadline() {
+	public void canRegisterWithNullDetailAndDeadline() {
 		RegisterBean bean = new RegisterBean();
 		bean.setTitle("Hoge");
 		
@@ -101,6 +101,26 @@ public class RegisterServiceTest {
 		TodoDao actualArgument = argument.getValue();
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
 		assertNull(actualArgument.getDetail());
+		assertNull(actualArgument.getDeadline());
+		assertNotNull(actualArgument.getCreatedDate());
+	}
+	
+	@Test
+	public void canRegisterWithEmptyDetailAndDeadline() {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		bean.setDetail("");
+		bean.setDeadline("");
+		
+		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
+		boolean valid = service.execute(bean);
+		
+		assertTrue(valid);
+		verify(repository).insert(argument.capture());
+		
+		TodoDao actualArgument = argument.getValue();
+		assertEquals(bean.getTitle(), actualArgument.getTitle());
+		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertNull(actualArgument.getDeadline());
 		assertNotNull(actualArgument.getCreatedDate());
 	}

@@ -22,5 +22,4 @@ Feature: Can I register todo?
   Scenario: 未完了のTODOアイテムが0件
     Given Todoアイテムは登録されていない
     When 一覧ページを表示する
-    Then Todoアイテムは登録されていない
-
+    Then Todoアイテムが0件表示される

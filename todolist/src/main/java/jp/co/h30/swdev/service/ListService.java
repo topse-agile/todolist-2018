@@ -1,5 +1,6 @@
 package jp.co.h30.swdev.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +27,12 @@ public class ListService {
 		List<ListBean> results = new ArrayList<ListBean>();
 		for(TodoDao dao : todos) {
 			ListBean bean = new ListBean();
-			bean.setTitle(dao.getTitle());
-			bean.setDetail(dao.getDetail());
+			try {
+				bean.setTitle(new String(dao.getTitle().getBytes("ISO_8859_1"), "UTF-8"));
+				bean.setDetail(new String(dao.getDetail().getBytes("ISO_8859_1"), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			
 			java.sql.Date deadLine = dao.getDeadline();
 			if(deadLine != null) {

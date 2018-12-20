@@ -18,7 +18,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class Stepdefs {
-	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
+	private static final String REGISTER_URL = "http://localhost:8080/todolist/register.jsp";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
 	private static final String DELETE_URL = "http://localhost:8080/todolist/delete";
 
@@ -93,6 +93,11 @@ public class Stepdefs {
     public void 登録リンクをクリックする() throws Exception {
         WebElement btnSubmit = findElement("btn-register");
         btnSubmit.click();
+    }
+
+    @Then("^登録ページが表示される$")
+    public void 登録ページが表示される() throws Exception {
+        assertEquals(REGISTER_URL, driver.getCurrentUrl());
     }
 
 	@Then("^一覧ページが表示される$")

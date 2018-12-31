@@ -112,6 +112,12 @@ public class Stepdefs {
         btnSubmit.click();
     }
 
+	@When("^(\\d+)件目の完了ボタンをクリックする$")
+	public void 件目の完了ボタンをクリックする(int index) throws Throwable {
+		WebElement btnComplete = findElements("btn-complete").get(index - 1);
+		btnComplete.click();
+	}
+
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());

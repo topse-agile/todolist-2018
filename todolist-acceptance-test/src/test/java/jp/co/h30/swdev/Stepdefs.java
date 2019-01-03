@@ -91,8 +91,8 @@ public class Stepdefs {
 
     @When("^登録リンクをクリックする$")
     public void 登録リンクをクリックする() throws Exception {
-        WebElement btnSubmit = findElement("btn-register");
-        btnSubmit.click();
+        WebElement btnRegister = findElement("btn-register");
+        btnRegister.click();
     }
 
     @Then("^登録ページが表示される$")

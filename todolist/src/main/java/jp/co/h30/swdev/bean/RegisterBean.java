@@ -1,10 +1,12 @@
 package jp.co.h30.swdev.bean;
 
+import java.util.List;
+
 public class RegisterBean {
 	private String detail;
 	private String deadline;
 	private String title;
-	private String message;
+	private List<String> messages;
 	
 	public String getTitle() {
 		return title;
@@ -24,10 +26,10 @@ public class RegisterBean {
 	public void setDeadline(String deadline) {
 		this.deadline = deadline;
 	}
-	public String getMessage() {
-		return message;
+	public List<String> getMessages() {
+		return messages;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
 	}
 }

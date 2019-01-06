@@ -1,15 +1,19 @@
 package jp.co.h30.swdev.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
+import jp.co.h30.swdev.message.Messages;
 import jp.co.h30.swdev.repository.TodoRepository;
 
 public class RegisterServiceTest {
@@ -28,7 +33,7 @@ public class RegisterServiceTest {
 	
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 	private static final DateFormat FORMAT = new SimpleDateFormat(DATE_FORMAT);
-
+	
 	@Mock
 	private TodoRepository repository;
 
@@ -127,5 +132,24 @@ public class RegisterServiceTest {
 		assertEquals(bean.getDetail(), actualArgument.getDetail());
 		assertNull(actualArgument.getDeadline());
 		assertNotNull(actualArgument.getCreatedDate());
+	}
+	
+	@Test
+	public void failToRegisterDueToEmptyTitleAndUnparsableDeadline() throws IOException {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("");
+		bean.setDetail("");
+		bean.setDeadline("Hoge");
+		
+		boolean result = service.execute(bean);
+		
+		assertFalse(result);
+		
+		List<String> messages = bean.getMessages();
+		assertEquals(2, messages.size());
+		for(String message : messages) {
+			assertTrue(message.equals(Messages.getMessage("err.title"))
+					|| message.equals(Messages.getMessage("err.deadline.format")));
+		}
 	}
 }

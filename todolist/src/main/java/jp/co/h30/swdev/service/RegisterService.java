@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
+import jp.co.h30.swdev.message.Messages;
 import jp.co.h30.swdev.repository.RepositoryFactory;
 import jp.co.h30.swdev.repository.TodoRepository;
 
@@ -29,8 +32,17 @@ public class RegisterService {
 	 * @return Todoアイテムの登録に成功したら{@code true}, 失敗したら{@code false}を返却します.
 	 */
 	public boolean execute(RegisterBean bean) {
+		List<String> messages = new ArrayList<>();
+		bean.setMessages(messages);
+		
 		TodoDao dao = new TodoDao();
-		dao.setTitle(bean.getTitle());
+		
+		String title = bean.getTitle();
+		if(title == null || title.isEmpty()) {
+			messages.add(Messages.getMessage("err.title"));
+		} else {
+			dao.setTitle(bean.getTitle());
+		}
 		dao.setDetail(bean.getDetail());
 		
 		String deadlineStr = bean.getDeadline();
@@ -39,9 +51,12 @@ public class RegisterService {
 				java.util.Date deadline = parseDate(deadlineStr);
 				dao.setDeadline(new Date(deadline.getTime()));
 			} catch (ParseException e) {
-				bean.setMessage("不正な日付フォーマットです");
-				return false;
+				messages.add(Messages.getMessage("err.deadline.format"));
 			}
+		}
+		
+		if(messages.size() >= 1) {
+			return false;
 		}
 		
 		dao.setCreatedDate(new Date(System.currentTimeMillis()));

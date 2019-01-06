@@ -159,7 +159,7 @@ public class Stepdefs {
 	
 	@Then("^メッセージに\"([^\"]*)\"と表示される$")
 	public void メッセージに_と表示される(String arg) throws Exception {
-		List<WebElement> messages = findElements("err-message");
+		List<WebElement> messages = findElements("message");
 		for(WebElement message : messages) {
 			if(message.getText().equals(arg)) {
 				return;

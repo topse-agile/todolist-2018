@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -16,6 +18,11 @@
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<a class="navbar-brand" href="#">Todo登録</a>
 	</nav>
+	<c:forEach items="${messages}" var="message">
+		<div class="alert alert-danger" data-test-id="message" role="alert">
+			<c:out value="${message}" />
+		</div>
+	</c:forEach>
 	<form action="register" method="post">
 		<div class="form-group">
 			<label for="title">タイトル</label> <input id="title"

@@ -122,7 +122,12 @@ public class Stepdefs {
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());
 	}
-
+	
+	@Then("^登録ページが表示される$")
+	public void 登録ページが表示される() throws Exception {
+		assertEquals(REGISTER_URL, driver.getCurrentUrl());
+	}
+	
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
 		List<WebElement> todos = driver.findElements(By.cssSelector("[data-test-id=todo]"));
@@ -156,6 +161,17 @@ public class Stepdefs {
 		String actual = findElement("created-date", todo).getText();
 		String today = LocalDate.now().format(dateFormatter);
 		assertEquals(today, actual);
+	}
+	
+	@Then("^メッセージに\"([^\"]*)\"と表示される$")
+	public void メッセージに_と表示される(String arg) throws Exception {
+		List<WebElement> messages = findElements("message");
+		for(WebElement message : messages) {
+			if(message.getText().equals(arg)) {
+				return;
+			}
+		}
+		fail();
 	}
 
 	@After

@@ -28,3 +28,4 @@ Feature: Can I not register TODO?
 		| feature | title | detail | deadline | message |
 		| 期限が日付の形式になっていない | Hoge	|| Piyoぴよ | 期限はyyyy/mm/ddで入力してください |
 		| 期限にマルチバイト文字を含む | Hoge || ２０１８／１/1 | 期限はyyyy/mm/ddで入力してください |
+		| 期限にマルチバイト文字を含む かつ 存在しない日付 | Hoge || 2018／１０/32 | 期限はyyyy/mm/ddで入力してください |

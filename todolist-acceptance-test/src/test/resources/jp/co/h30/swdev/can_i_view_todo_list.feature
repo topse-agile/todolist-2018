@@ -16,7 +16,7 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-Feature: Can I register todo?
+Feature: Can I view todo?
   I feel uneasy without having to do
 
   Scenario: 未完了のTODOアイテムが0件

@@ -3,10 +3,19 @@ package jp.co.h30.swdev.dao;
 import java.sql.Date;
 
 public class TodoDao {
+	private String id;
 	private String title;
 	private String detail;
 	private Date deadline;
 	private Date createdDate;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;

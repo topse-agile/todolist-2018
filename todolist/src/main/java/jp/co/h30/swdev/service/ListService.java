@@ -46,6 +46,8 @@ public class ListService {
 			
 			bean.setCreatedDate(new Date(dao.getCreatedDate().getTime()));
 			results.add(bean);
+			
+			bean.setId(dao.getId());
 		}
 		
 		return results;

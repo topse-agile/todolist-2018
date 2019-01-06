@@ -33,6 +33,10 @@
 		select * from todo
 	</select>
 	
+	<delete id="delete">
+		delete from todo where id = #{id}
+	</delete>
+	
 	<delete id="deleteAll">
 		delete from todo
 	</delete>

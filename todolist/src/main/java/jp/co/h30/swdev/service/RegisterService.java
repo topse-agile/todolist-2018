@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
+
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
 import jp.co.h30.swdev.message.Messages;
@@ -16,6 +18,7 @@ import jp.co.h30.swdev.repository.TodoRepository;
 public class RegisterService {
 	private static final String DATE_FORMAT = "yyyyMMdd";
 	private static final String DATE_FORMAT_WIHT_SLASH = "yyyy/MM/dd";
+	private static final Pattern HALF_CHAR_ONLY_DATE_PATTERN = Pattern.compile("^[0-9/]*$");
 	
 	private TodoRepository repository;
 	
@@ -51,7 +54,12 @@ public class RegisterService {
 				java.util.Date deadline = parseDate(deadlineStr);
 				dao.setDeadline(new Date(deadline.getTime()));
 			} catch (ParseException e) {
-				messages.add(Messages.getMessage("err.deadline.format"));
+				// ParseExceptionを見ても原因は判別できないため, 自前で判定する.
+				if(HALF_CHAR_ONLY_DATE_PATTERN.matcher(deadlineStr).matches()) {
+					messages.add(Messages.getMessage("err.deadline.existence"));
+				} else {
+					messages.add(Messages.getMessage("err.deadline.format"));
+				}
 			}
 		}
 		
@@ -74,6 +82,7 @@ public class RegisterService {
 			pattern = DATE_FORMAT;
 		}
 		DateFormat format = new SimpleDateFormat(pattern);
+		format.setLenient(false);
 		return format.parse(dateStr);
 	}
 }

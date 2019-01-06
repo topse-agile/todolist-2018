@@ -30,10 +30,10 @@ import jp.co.h30.swdev.repository.TodoRepository;
 public class RegisterServiceTest {
 	private static final String DATE_FORMAT = "yyyyMMdd";
 	private static final String DATE_FORMAT_WITH_SLASH = "yyyy/MM/dd";
-	
+
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 	private static final DateFormat FORMAT = new SimpleDateFormat(DATE_FORMAT);
-	
+
 	@Mock
 	private TodoRepository repository;
 
@@ -85,7 +85,7 @@ public class RegisterServiceTest {
 
 		assertTrue(valid);
 		verify(repository).insert(argument.capture());
-		
+
 		TodoDao actualArgument = argument.getValue();
 		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
@@ -93,18 +93,18 @@ public class RegisterServiceTest {
 		assertEquals(date.format(FORMATTER), FORMAT.format(actualArgument.getDeadline()));
 		assertNotNull(actualArgument.getCreatedDate());
 	}
-	
+
 	@Test
 	public void canRegisterWithNullDetailAndDeadline() {
 		RegisterBean bean = new RegisterBean();
 		bean.setTitle("Hoge");
-		
+
 		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
 		boolean valid = service.execute(bean);
-		
+
 		assertTrue(valid);
 		verify(repository).insert(argument.capture());
-		
+
 		TodoDao actualArgument = argument.getValue();
 		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
@@ -112,20 +112,20 @@ public class RegisterServiceTest {
 		assertNull(actualArgument.getDeadline());
 		assertNotNull(actualArgument.getCreatedDate());
 	}
-	
+
 	@Test
 	public void canRegisterWithEmptyDetailAndDeadline() {
 		RegisterBean bean = new RegisterBean();
 		bean.setTitle("Hoge");
 		bean.setDetail("");
 		bean.setDeadline("");
-		
+
 		ArgumentCaptor<TodoDao> argument = ArgumentCaptor.forClass(TodoDao.class);
 		boolean valid = service.execute(bean);
-		
+
 		assertTrue(valid);
 		verify(repository).insert(argument.capture());
-		
+
 		TodoDao actualArgument = argument.getValue();
 		assertNotNull(actualArgument.getId());
 		assertEquals(bean.getTitle(), actualArgument.getTitle());
@@ -133,23 +133,37 @@ public class RegisterServiceTest {
 		assertNull(actualArgument.getDeadline());
 		assertNotNull(actualArgument.getCreatedDate());
 	}
-	
+
 	@Test
 	public void failToRegisterDueToEmptyTitleAndUnparsableDeadline() throws IOException {
 		RegisterBean bean = new RegisterBean();
 		bean.setTitle("");
 		bean.setDetail("");
 		bean.setDeadline("Hoge");
-		
+
 		boolean result = service.execute(bean);
-		
+
 		assertFalse(result);
-		
+
 		List<String> messages = bean.getMessages();
 		assertEquals(2, messages.size());
-		for(String message : messages) {
+		for (String message : messages) {
 			assertTrue(message.equals(Messages.getMessage("err.title"))
 					|| message.equals(Messages.getMessage("err.deadline.format")));
 		}
+	}
+
+	@Test
+	public void failToRegisterDueToInvalidDate() {
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		bean.setDetail("");
+		bean.setDeadline("2018/10/32");
+
+		boolean result = service.execute(bean);
+
+		assertFalse(result);
+		List<String> messages = bean.getMessages();
+		assertEquals(Messages.getMessage("err.deadline.existence"),messages.get(0));
 	}
 }

@@ -4,10 +4,9 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
 import jp.co.h30.swdev.message.Messages;
@@ -37,14 +36,13 @@ public class RegisterService {
 		bean.setMessages(messages);
 		
 		TodoDao dao = new TodoDao();
-		dao.setId(UUID.randomUUID().toString());
-		
 		String title = bean.getTitle();
 		if(title == null || title.isEmpty()) {
 			messages.add(Messages.getMessage("err.title"));
 		} else {
 			dao.setTitle(bean.getTitle());
 		}
+		dao.setId(UUID.randomUUID().toString());
 		dao.setDetail(bean.getDetail());
 		
 		String deadlineStr = bean.getDeadline();

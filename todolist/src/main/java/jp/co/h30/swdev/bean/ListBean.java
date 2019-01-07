@@ -8,6 +8,7 @@ public class ListBean {
 	private String title;
 	private String message;
 	private Date createdDate;
+	private String id;
 	
 	public String getTitle() {
 		return title;
@@ -38,5 +39,11 @@ public class ListBean {
 	}
 	public void setCreatedDate(Date cratedDate) {
 		this.createdDate = cratedDate;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 }

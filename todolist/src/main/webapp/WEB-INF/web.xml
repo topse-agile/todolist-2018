@@ -16,6 +16,11 @@
 	</servlet>
 	
 	<servlet>
+		<servlet-name>Complete</servlet-name>
+		<servlet-class>jp.co.h30.swdev.servlet.CompleteServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>Delete</servlet-name>
 		<servlet-class>jp.co.h30.swdev.servlet.DeleteServlet</servlet-class>
 	</servlet>
@@ -28,6 +33,11 @@
 	<servlet-mapping>
 		<servlet-name>Register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Complete</servlet-name>
+		<url-pattern>/complete</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

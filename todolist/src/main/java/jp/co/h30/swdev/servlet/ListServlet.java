@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -36,7 +35,7 @@ public class ListServlet extends HttpServlet {
 		Connection connection = DriverManager.getConnection("jdbc:h2:mem:todo;DB_CLOSE_DELAY=-1");
 		Statement stmt = connection.createStatement();
 		stmt.execute(
-				"create table todo (title varchar, detail varchar, deadline date, created_date date)");
+				"create table todo (id varchar, title varchar, detail varchar, deadline date, created_date date)");
 		stmt.close();
     }
 

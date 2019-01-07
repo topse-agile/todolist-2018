@@ -8,5 +8,7 @@ public interface TodoRepository {
 	
 	public List<TodoDao> findAll();
 	
+	public int delete(TodoDao dao);
+	
 	public int deleteAll();
 }

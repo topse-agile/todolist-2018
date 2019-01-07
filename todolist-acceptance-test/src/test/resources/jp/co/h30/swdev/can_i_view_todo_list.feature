@@ -16,7 +16,7 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-Feature: Can I register todo?
+Feature: Can I view todo?
   I feel uneasy without having to do
 
   Scenario: 未完了のTODOアイテムが0件
@@ -55,3 +55,4 @@ Feature: Can I register todo?
     Given 一覧ページを表示する
     When 登録リンクをクリックする
     Then 登録ページが表示される
+

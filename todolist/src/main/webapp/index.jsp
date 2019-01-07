@@ -33,6 +33,7 @@
 				<th>説明</th>
 				<th>期限</th>
 				<th>作成日</th>
+				<th>完了</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,6 +43,12 @@
 					<td data-test-id="detail"><c:out value="${todo.detail}"></c:out></td>
 					<td data-test-id="deadline"><fmt:formatDate value="${todo.deadline}" pattern="yyyy/MM/dd" /></td>
 					<td data-test-id="created-date"><fmt:formatDate value="${todo.createdDate}" pattern="yyyy/MM/dd" /></td>
+					<td>
+						<form action="complete" method="post">
+							<input type="hidden" name="id" value="${todo.id}"></input>
+							<button type="submit" class="btn btn-default btn-sm" data-test-id="btn-complete">完了</button>
+						</form>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

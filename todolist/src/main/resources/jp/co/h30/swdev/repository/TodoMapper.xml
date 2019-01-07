@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.h30.swdev.repository.TodoRepository">
 	<resultMap id="todoResultMap" type="jp.co.h30.swdev.dao.TodoDao">
+		<result property="id" column="id" />
 		<result property="title" column="title" />
 		<result property="detail" column="detail" />
 		<result property="deadline" column="deadline" />
@@ -13,12 +14,14 @@
 	
 	<insert id="insert" parameterType="jp.co.h30.swdev.dao.TodoDao">
 		insert into todo (
+			id,
 			title,
 			detail,
 			deadline,
 			created_date
 		)
 		values (
+			#{id},
 			#{title},
 			#{detail},
 			#{deadline},
@@ -29,6 +32,10 @@
 	<select id="findAll" resultMap="todoResultMap">
 		select * from todo
 	</select>
+	
+	<delete id="delete">
+		delete from todo where id = #{id}
+	</delete>
 	
 	<delete id="deleteAll">
 		delete from todo

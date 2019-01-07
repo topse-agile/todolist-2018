@@ -40,9 +40,14 @@ public class RegisterServlet extends HttpServlet {
 		bean.setDeadline(request.getParameter("deadline"));
 		bean.setDetail(request.getParameter("detail"));
 		
-		new RegisterService().execute(bean);
-		
-		response.sendRedirect("/todolist/");
+		boolean result = new RegisterService().execute(bean);
+		if(result) {
+			response.sendRedirect("/todolist/");
+		} else {
+			request.setAttribute("messages", bean.getMessages());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 }

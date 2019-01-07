@@ -18,7 +18,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class Stepdefs {
-	private static final String REGISTER_URL = "http://localhost:8080/todolist/register.jsp";
+	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
 	private static final String DELETE_URL = "http://localhost:8080/todolist/delete";
 
@@ -95,16 +95,22 @@ public class Stepdefs {
         btnRegister.click();
     }
 
-    @Then("^登録ページが表示される$")
-    public void 登録ページが表示される() throws Exception {
-        assertEquals(REGISTER_URL, driver.getCurrentUrl());
-    }
+	@When("^(\\d+)件目の完了ボタンをクリックする$")
+	public void 件目の完了ボタンをクリックする(int index) throws Throwable {
+		WebElement btnComplete = findElements("btn-complete").get(index - 1);
+		btnComplete.click();
+	}
 
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());
 	}
-
+	
+	@Then("^登録ページが表示される$")
+	public void 登録ページが表示される() throws Exception {
+		assertTrue(driver.getCurrentUrl().equals(REGISTER_URL) || driver.getCurrentUrl().equals(REGISTER_URL + ".jsp"));
+	}
+	
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
 		List<WebElement> todos = driver.findElements(By.cssSelector("[data-test-id=todo]"));

@@ -38,3 +38,11 @@ Feature: Can I complete todo?
     Then 一覧ページが表示される
     And Todoアイテムが1件表示される
     And 1件目のタイトルが"Hoge"である
+
+  Scenario: 未完了のTodoを完了すると、一覧に表示されなくなる
+    Given 一覧ページを表示する
+    And Todoアイテムは登録されていない
+    When タイトル："Hoge", 説明："Fuga", 期限："2018/10/5"のTodoアイテムを登録済み
+    And 1件目の完了ボタンをクリックする
+    Then 一覧ページが表示される
+    And Todoアイテムが0件表示される

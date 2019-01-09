@@ -113,7 +113,7 @@ public class Stepdefs {
     }
 
 	@When("^(\\d+)件目の完了ボタンをクリックする$")
-	public void 件目の完了ボタンをクリックする(int index) throws Throwable {
+	public void _件目の完了ボタンをクリックする(int index) throws Throwable {
 		WebElement btnComplete = findElements("btn-complete").get(index - 1);
 		btnComplete.click();
 	}

@@ -118,6 +118,19 @@ public class Stepdefs {
 		btnComplete.click();
 	}
 
+	@When("^タイトルが\"([^\"]*)\"である最初のTodoアイテムを完了する$")
+	public void タイトルが_である最初のTodoアイテムを完了する(String title) throws Throwable {
+		List<WebElement> todos = findElements("todo");
+		for (WebElement todo : todos) {
+			String actual = findElement("title", todo).getText();
+			if (actual.equals(title)) {
+				WebElement btnComplete = findElement("btn-complete", todo);
+				btnComplete.click();
+				break;
+			}
+		}
+	}
+
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());

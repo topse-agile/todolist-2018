@@ -194,7 +194,7 @@ public class Stepdefs {
 	public void 件目が強調表示である(int arg1) throws Exception {
 		WebElement todo = findElements("todo").get(arg1 - 1);
 		String actual = todo.getAttribute("class");
-		assertEquals("closing-deadline", actual);
+		assertEquals("closing", actual);
 	}
 
 	@Then("^(\\d+)件目が強調表示でない$")

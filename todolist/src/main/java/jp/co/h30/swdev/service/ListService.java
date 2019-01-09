@@ -43,6 +43,7 @@ public class ListService {
 			if(deadLine != null) {
 				bean.setDeadline(new Date(deadLine.getTime()));
 			}
+			bean.setClosenessOfDeadline("closing");
 			
 			bean.setCreatedDate(new Date(dao.getCreatedDate().getTime()));
 			results.add(bean);

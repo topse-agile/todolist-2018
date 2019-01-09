@@ -56,4 +56,23 @@ class ListServiceTest {
 		assertEquals(2, results.size());
 	}
 
+	@Test
+    void canSetClosenessOfDeadline() {
+		List<TodoDao> selectResults = new ArrayList<TodoDao>();
+
+		TodoDao dao = new TodoDao();
+		dao.setTitle("hoge");
+		dao.setCreatedDate(new java.sql.Date(new Date().getTime()));
+		dao.setDeadline(new java.sql.Date(new Date().getTime()));
+		selectResults.add(dao);
+
+		when(repository.findAll()).thenReturn(selectResults);
+		List<ListBean> results = service.execute();
+
+		ListBean targetListBean = results.get(0);
+		String actual = targetListBean.getClosenessOfDeadline();
+
+		assertEquals("closing", actual);
+    }
+
 }

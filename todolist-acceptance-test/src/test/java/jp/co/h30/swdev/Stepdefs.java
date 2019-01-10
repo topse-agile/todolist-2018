@@ -113,9 +113,22 @@ public class Stepdefs {
     }
 
 	@When("^(\\d+)件目の完了ボタンをクリックする$")
-	public void 件目の完了ボタンをクリックする(int index) throws Throwable {
+	public void _件目の完了ボタンをクリックする(int index) throws Throwable {
 		WebElement btnComplete = findElements("btn-complete").get(index - 1);
 		btnComplete.click();
+	}
+
+	@When("^タイトルが\"([^\"]*)\"である最初のTodoアイテムを完了する$")
+	public void タイトルが_である最初のTodoアイテムを完了する(String title) throws Throwable {
+		List<WebElement> todos = findElements("todo");
+		for (WebElement todo : todos) {
+			String actual = findElement("title", todo).getText();
+			if (actual.equals(title)) {
+				WebElement btnComplete = findElement("btn-complete", todo);
+				btnComplete.click();
+				break;
+			}
+		}
 	}
 
 	@Then("^一覧ページが表示される$")

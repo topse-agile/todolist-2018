@@ -38,7 +38,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${todos}" var="todo">
-				<tr data-test-id="todo">
+				<tr data-test-id="todo" class="${todo.closenessOfDeadline}">
 					<td data-test-id="title"><c:out value="${todo.title}"></c:out></td>
 					<td data-test-id="detail"><c:out value="${todo.detail}"></c:out></td>
 					<td data-test-id="deadline"><fmt:formatDate value="${todo.deadline}" pattern="yyyy/MM/dd" /></td>

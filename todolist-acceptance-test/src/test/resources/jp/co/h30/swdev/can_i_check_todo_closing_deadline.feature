@@ -2,7 +2,8 @@
 Feature: Can I check TODOs with deadlines within 3 days?
 
   Scenario:
-    Given Todoアイテムは登録されていない
+    Given 一覧ページを表示する
+    And Todoアイテムは登録されていない
     And 登録ページを表示する
     When タイトルに"Hoge"と入力する
     And 説明に"Fuga"と入力する

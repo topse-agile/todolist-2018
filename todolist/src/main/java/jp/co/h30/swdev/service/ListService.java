@@ -2,6 +2,7 @@ package jp.co.h30.swdev.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,9 +43,19 @@ public class ListService {
 			java.sql.Date deadLine = dao.getDeadline();
 			if(deadLine != null) {
 				bean.setDeadline(new Date(deadLine.getTime()));
+
+				// Check deadline is within 3 days, and mark closeness.
+				Calendar calendarDeadLine =  Calendar.getInstance();
+				calendarDeadLine.setTime(bean.getDeadline());
+				Calendar calendarWithin3Days = Calendar.getInstance();
+				calendarWithin3Days.setTime(new Date());
+				calendarWithin3Days.add(Calendar.DATE, 3);
+				int diff = calendarDeadLine.compareTo(calendarWithin3Days);
+				if (diff <= 0) {
+					bean.setClosenessOfDeadline("closing");
+				}
 			}
-			bean.setClosenessOfDeadline("closing");
-			
+
 			bean.setCreatedDate(new Date(dao.getCreatedDate().getTime()));
 			results.add(bean);
 			

@@ -10,6 +10,10 @@ public class ListBean {
 	private Date createdDate;
 	private String id;
 	private String closenessOfDeadline;
+
+	public ListBean() {
+		this.closenessOfDeadline = "";
+	}
 	
 	public String getTitle() {
 		return title;

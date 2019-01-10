@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -32,12 +31,23 @@
 			<version>3.4.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.3.2</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.1</version>
 		</dependency>
 
 		<dependency>
@@ -92,16 +102,16 @@
 					<version>2.22.0</version>
 				</plugin>
 
-<plugin>
-      <groupId>org.apache.tomcat.maven</groupId>
-      <artifactId>tomcat7-maven-plugin</artifactId>
-      <version>2.2</version>
-      <configuration>
-        <update>true</update>
-        <server>tomcat-localhost</server>
-        <url>http://localhost:8080/manager/text</url>
-      </configuration>
-    </plugin>
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat7-maven-plugin</artifactId>
+					<version>2.2</version>
+					<configuration>
+						<update>true</update>
+						<server>tomcat-localhost</server>
+						<url>http://localhost:8080/manager/text</url>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

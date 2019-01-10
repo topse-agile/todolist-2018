@@ -21,6 +21,7 @@ Feature: Can I complete todo?
 
   Scenario: Todoアイテムがすべて完了済みのとき、Todoアイテムが表示されない
     Given 一覧ページを表示する
+    And サーバの日付は"2018/10/5"である
     And Todoアイテムは登録されていない
     When タイトル："Hoge", 説明："Fuga", 期限："2018/10/5"のTodoアイテムを登録済み
     And 1件目の完了ボタンをクリックする
@@ -31,6 +32,7 @@ Feature: Can I complete todo?
 
   Scenario: 完了済みのTodoアイテムは表示されない
     Given 一覧ページを表示する
+    And サーバの日付は"2018/10/5"である
     And Todoアイテムは登録されていない
     When タイトル："Fuga", 説明："Hoge", 期限："2018/10/5"のTodoアイテムを登録済み
     And タイトル："Hoge", 説明："Fuga", 期限："2018/10/5"のTodoアイテムを登録済み
@@ -41,6 +43,7 @@ Feature: Can I complete todo?
 
   Scenario: 未完了のTodoを完了すると、一覧に表示されなくなる
     Given 一覧ページを表示する
+    And サーバの日付は"2018/10/5"である
     And Todoアイテムは登録されていない
     When タイトル："Hoge", 説明："Fuga", 期限："2018/10/5"のTodoアイテムを登録済み
     And 1件目の完了ボタンをクリックする
@@ -49,6 +52,7 @@ Feature: Can I complete todo?
 
   Scenario: 内容が同じTodoのうち1つを完了しても他のTodoに影響しない
     Given 一覧ページを表示する
+    And サーバの日付は"2018/10/5"である
     And Todoアイテムは登録されていない
     When タイトル："Fuga", 説明："Hoge", 期限："2018/10/5"のTodoアイテムを登録済み
     And タイトル："Fuga", 説明："Hoge", 期限："2018/10/5"のTodoアイテムを登録済み

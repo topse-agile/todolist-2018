@@ -26,6 +26,7 @@ Feature: Can I view todo?
 
   Scenario: 未完了のTODOアイテムが1件
     Given Todoアイテムは登録されていない
+    And サーバの日付は"2018/10/5"である
     And 登録ページを表示する
     When タイトルに"Hoge"と入力する
     And 説明に"Fuga"と入力する
@@ -36,6 +37,7 @@ Feature: Can I view todo?
 
   Scenario: 未完了のTODOアイテムが2件
     Given Todoアイテムは登録されていない
+    And サーバの日付は"2018/10/5"である
     And 登録ページを表示する
     When タイトルに"Hoge"と入力する
     And 説明に"Fuga"と入力する

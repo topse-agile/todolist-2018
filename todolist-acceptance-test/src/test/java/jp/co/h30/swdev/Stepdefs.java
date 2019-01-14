@@ -23,16 +23,19 @@ public class Stepdefs {
 	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
 	private static final String DELETE_URL = "http://localhost:8080/todolist/delete";
+	private static final String ADJUST_URL = "http://localhost:8080/todolist/adjust";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private WebDriver driver;
 
 	@Before
 	public void setupBrowser() {
-		System.clearProperty("CRITERIA_DATE");
 		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "NUL");
 		driver = new FirefoxDriver();
+		
+		// サーバの基準日をクリアする
+		driver.get(ADJUST_URL);
 	}
 
 	protected WebElement findElement(String testId) {
@@ -68,9 +71,10 @@ public class Stepdefs {
 		assertEquals(0, elements.size());
 	}
 	
-	@Given("^サーバの日付は\"([^\\\"]*)\"である$")
-	public void サーバの日付は_である(String arg1) {
-		System.setProperty("CRITERIA_DATE", arg1);
+	@Given("^サーバの基準日は\"([^\\\"]*)\"である$")
+	public void サーバの基準日は_である(String arg1) {
+		String parameterizedAdjustUrl = ADJUST_URL + "?criteriaDate=" + arg1;
+		driver.get(parameterizedAdjustUrl);
 	}
 	
 	@Given("タイトル：\"([^\\\"]*)\", 説明：\"([^\\\"]*)\", 期限：\"([^\\\"]*)\"のTodoアイテムを登録済み")

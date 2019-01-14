@@ -3,9 +3,9 @@ Feature: Can I register todo?
   I feel uneasy without having to do
 
 	Scenario Outline: <feature>条件での登録成功
-		Given 一覧ページを表示する
+		Given サーバの基準日は"<servertime>"である
+		And 一覧ページを表示する
 		And Todoアイテムは登録されていない
-		And サーバの日付は"<servertime>"である
 		And 登録ページを表示する
 		When タイトルに"<title>"と入力する
 		And 説明に"<detail>"と入力する
@@ -28,9 +28,9 @@ Feature: Can I register todo?
 
 		
 	Scenario: 同じ値を持つ複数のTodoを登録できる
-		Given 一覧ページを表示する
+		Given サーバの基準日は"2018/10/5"である
+		And 一覧ページを表示する
 		And Todoアイテムは登録されていない
-		And サーバの日付は"2018/10/5"である
 		And タイトル："Hoge", 説明："Fuga", 期限："2018/10/5"のTodoアイテムを登録済み
 		And 登録ページを表示する
 		When タイトルに"Hoge"と入力する

@@ -32,6 +32,7 @@ public class AdjustServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 受け入れテスト用であることと, WebDriver(Selenium)がPostリクエストを作る機能を持っていなかったのでGETに集約した
 		String inputDate = (String) request.getParameter("criteriaDate");
 		if(inputDate == null || inputDate.isEmpty()) {
 			service.execute();

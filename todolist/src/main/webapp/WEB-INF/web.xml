@@ -24,6 +24,10 @@
 		<servlet-name>Delete</servlet-name>
 		<servlet-class>jp.co.h30.swdev.servlet.DeleteServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Adjust</servlet-name>
+		<servlet-class>jp.co.h30.swdev.servlet.AdjustServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>List</servlet-name>
@@ -43,5 +47,9 @@
 	<servlet-mapping>
 		<servlet-name>Delete</servlet-name>
 		<url-pattern>/delete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Adjust</servlet-name>
+		<url-pattern>/adjust</url-pattern>
 	</servlet-mapping>
 </web-app>

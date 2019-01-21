@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import jp.co.h30.swdev.bean.RegisterBean;
 import jp.co.h30.swdev.dao.TodoDao;
 import jp.co.h30.swdev.message.Messages;
@@ -53,6 +55,10 @@ public class RegisterService {
 			try {
 				java.util.Date deadline = parseDate(deadlineStr);
 				dao.setDeadline(new Date(deadline.getTime()));
+				
+				if(isPastDate(dao.getDeadline())) {
+					messages.add(Messages.getMessage("err.deadline.past"));
+				}
 			} catch (ParseException e) {
 				// ParseExceptionを見ても原因は判別できないため, 自前で判定する.
 				if(HALF_CHAR_ONLY_DATE_PATTERN.matcher(deadlineStr).matches()) {
@@ -84,5 +90,16 @@ public class RegisterService {
 		DateFormat format = new SimpleDateFormat(pattern);
 		format.setLenient(false);
 		return format.parse(dateStr);
+	}
+	
+	private boolean isPastDate(Date target) {
+		// 当日を許可するため, 時, 分, 秒, ミリ秒を0にする
+		DateTime today = DateTime.now();
+		String criteriaDate = System.getProperty("CRITERIA_DATE");
+		if(criteriaDate != null) {
+			today = DateTime.parse(criteriaDate, DateTimeFormat.forPattern(DATE_FORMAT_WIHT_SLASH));
+		}
+		today = today.withTime(0, 0, 0, 0);
+		return today.isAfter(target.getTime());
 	}
 }

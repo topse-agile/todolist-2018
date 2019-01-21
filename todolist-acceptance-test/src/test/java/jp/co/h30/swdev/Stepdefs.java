@@ -2,8 +2,10 @@ package jp.co.h30.swdev;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -21,6 +23,7 @@ public class Stepdefs {
 	private static final String REGISTER_URL = "http://localhost:8080/todolist/register";
 	private static final String LIST_URL = "http://localhost:8080/todolist/";
 	private static final String DELETE_URL = "http://localhost:8080/todolist/delete";
+	private static final String ADJUST_URL = "http://localhost:8080/todolist/adjust";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private WebDriver driver;
@@ -30,6 +33,9 @@ public class Stepdefs {
 		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "NUL");
 		driver = new FirefoxDriver();
+		
+		// サーバの基準日をクリアする
+		driver.get(ADJUST_URL);
 	}
 
 	protected WebElement findElement(String testId) {
@@ -65,19 +71,25 @@ public class Stepdefs {
 		assertEquals(0, elements.size());
 	}
 	
+	@Given("^サーバの基準日は\"([^\\\"]*)\"である$")
+	public void サーバの基準日は_である(String arg1) {
+		String parameterizedAdjustUrl = ADJUST_URL + "?criteriaDate=" + arg1;
+		driver.get(parameterizedAdjustUrl);
+	}
+	
 	@Given("タイトル：\"([^\\\"]*)\", 説明：\"([^\\\"]*)\", 期限：\"([^\\\"]*)\"のTodoアイテムを登録済み")
 	public void タイトル_説明_期限_のTodoアイテムを登録済み(String arg1, String arg2, String arg3) throws Exception {
 		driver.get(REGISTER_URL);
-		
+
 		WebElement title = findElement("title");
 		title.sendKeys(arg1);
-		
+
 		WebElement detail = findElement("detail");
 		detail.sendKeys(arg2);
-		
+
 		WebElement deadline = findElement("deadline");
 		deadline.sendKeys(arg3);
-		
+
 		WebElement btnSubmit = findElement("btn-submit");
 		btnSubmit.click();
 	}
@@ -94,6 +106,28 @@ public class Stepdefs {
 		detail.sendKeys(arg1);
 	}
 
+	@When("^期限に現在の日付の(\\d+)年前を入力する$")
+	public void 期限に現在の日付の_年前を入力する(int amount) throws Exception {
+		Calendar inputDate = Calendar.getInstance();
+		inputDate.add(Calendar.YEAR, amount * -1);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		String dateStr = format.format(inputDate.getTime());
+		WebElement deadline = findElement("deadline");
+		deadline.sendKeys(dateStr);
+	}
+
+	@When("^期限に現在の日付の(\\d+)日前を入力する$")
+	public void 期限に現在の日付の_日前を入力する(int amount) throws Exception {
+		Calendar inputDate = Calendar.getInstance();
+		inputDate.add(Calendar.DATE, amount * -1);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		String dateStr = format.format(inputDate.getTime());
+		WebElement deadline = findElement("deadline");
+		deadline.sendKeys(dateStr);
+	}
+
 	@When("^期限に\"([^\"]*)\"と入力する$")
 	public void 期限に_と入力する(String arg1) throws Exception {
 		WebElement deadline = findElement("deadline");
@@ -106,11 +140,11 @@ public class Stepdefs {
 		btnSubmit.click();
 	}
 
-    @When("^登録リンクをクリックする$")
-    public void 登録リンクをクリックする() throws Exception {
-        WebElement btnRegister = findElement("btn-register");
-        btnRegister.click();
-    }
+	@When("^登録リンクをクリックする$")
+	public void 登録リンクをクリックする() throws Exception {
+		WebElement btnRegister = findElement("btn-register");
+		btnRegister.click();
+	}
 
 	@When("^(\\d+)件目の完了ボタンをクリックする$")
 	public void _件目の完了ボタンをクリックする(int index) throws Throwable {
@@ -135,12 +169,12 @@ public class Stepdefs {
 	public void 一覧ページが表示される() throws Exception {
 		assertEquals(LIST_URL, driver.getCurrentUrl());
 	}
-	
+
 	@Then("^登録ページが表示される$")
 	public void 登録ページが表示される() throws Exception {
 		assertTrue(driver.getCurrentUrl().equals(REGISTER_URL) || driver.getCurrentUrl().equals(REGISTER_URL + ".jsp"));
 	}
-	
+
 	@Then("^Todoアイテムが(\\d+)件表示される$")
 	public void todoアイテムが_件表示される(int arg1) throws Exception {
 		List<WebElement> todos = driver.findElements(By.cssSelector("[data-test-id=todo]"));
@@ -175,12 +209,12 @@ public class Stepdefs {
 		String today = LocalDate.now().format(dateFormatter);
 		assertEquals(today, actual);
 	}
-	
+
 	@Then("^メッセージに\"([^\"]*)\"と表示される$")
 	public void メッセージに_と表示される(String arg) throws Exception {
 		List<WebElement> messages = findElements("message");
-		for(WebElement message : messages) {
-			if(message.getText().equals(arg)) {
+		for (WebElement message : messages) {
+			if (message.getText().equals(arg)) {
 				return;
 			}
 		}

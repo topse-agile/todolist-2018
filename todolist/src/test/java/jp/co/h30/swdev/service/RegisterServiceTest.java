@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -165,5 +166,43 @@ public class RegisterServiceTest {
 		assertFalse(result);
 		List<String> messages = bean.getMessages();
 		assertEquals(Messages.getMessage("err.deadline.existence"),messages.get(0));
+	}
+	
+	@Test
+	public void failToRegisterDueToPastDate() {
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.DATE, -1);
+		
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		bean.setDetail("");
+		bean.setDeadline(FORMAT.format(today.getTime()));
+		
+		boolean result = service.execute(bean);
+		
+		assertFalse(result);
+		List<String> messages = bean.getMessages();
+		assertEquals(Messages.getMessage("err.deadline.past"),messages.get(0));
+	}
+	
+	@Test
+	public void failToRegisterDueToPastDateAgainstCriteriaDate() {
+		Calendar criteriaDate = Calendar.getInstance();
+		criteriaDate.add(Calendar.DATE, -1);
+		System.setProperty("CRITERIA_DATE", new SimpleDateFormat(DATE_FORMAT_WITH_SLASH).format(criteriaDate.getTime()));
+		
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.DATE, -2);
+		
+		RegisterBean bean = new RegisterBean();
+		bean.setTitle("Hoge");
+		bean.setDetail("");
+		bean.setDeadline(FORMAT.format(today.getTime()));
+		
+		boolean result = service.execute(bean);
+		
+		assertFalse(result);
+		List<String> messages = bean.getMessages();
+		assertEquals(Messages.getMessage("err.deadline.past"),messages.get(0));
 	}
 }

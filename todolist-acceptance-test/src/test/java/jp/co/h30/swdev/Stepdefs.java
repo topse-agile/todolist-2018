@@ -8,6 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -152,6 +157,17 @@ public class Stepdefs {
 		btnComplete.click();
 	}
 
+	@When("^期限に(\\d+)日後を入力する$")
+	public void 期限に_日後を入力する(int arg1) throws Exception {
+		WebElement deadline = findElement("deadline");
+		Date d = new Date();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(d);
+		calendar.add(Calendar.DATE, arg1);
+		deadline.sendKeys(fmt.format(calendar.getTime()));
+  }
+  
 	@When("^タイトルが\"([^\"]*)\"である最初のTodoアイテムを完了する$")
 	public void タイトルが_である最初のTodoアイテムを完了する(String title) throws Throwable {
 		List<WebElement> todos = findElements("todo");
@@ -163,7 +179,7 @@ public class Stepdefs {
 				break;
 			}
 		}
-	}
+
 
 	@Then("^一覧ページが表示される$")
 	public void 一覧ページが表示される() throws Exception {
@@ -219,6 +235,20 @@ public class Stepdefs {
 			}
 		}
 		fail();
+	}
+
+	@Then("^(\\d+)件目が強調表示である$")
+	public void 件目が強調表示である(int arg1) throws Exception {
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = todo.getAttribute("class");
+		assertEquals("closing", actual);
+	}
+
+	@Then("^(\\d+)件目が強調表示でない$")
+	public void 件目が強調表示でない(int arg1) throws Exception {
+		WebElement todo = findElements("todo").get(arg1 - 1);
+		String actual = todo.getAttribute("class");
+		assertEquals("", actual);
 	}
 
 	@After

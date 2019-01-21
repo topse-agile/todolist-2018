@@ -9,6 +9,11 @@ public class ListBean {
 	private String message;
 	private Date createdDate;
 	private String id;
+	private String closenessOfDeadline;
+
+	public ListBean() {
+		this.closenessOfDeadline = "";
+	}
 	
 	public String getTitle() {
 		return title;
@@ -45,5 +50,11 @@ public class ListBean {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getClosenessOfDeadline() {
+		return closenessOfDeadline;
+	}
+	public void setClosenessOfDeadline(String closenessOfDeadline) {
+		this.closenessOfDeadline = closenessOfDeadline;
 	}
 }
